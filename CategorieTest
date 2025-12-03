@@ -1,0 +1,93 @@
+<?php
+
+namespace GreenTeuf\Tests;
+
+require_once __DIR__.'/../../vendor/autoload.php';
+
+use PHPUnit\Framework\TestCase;
+use GreenTeuf\Model\Categorie;
+
+class CategorieTest extends TestCase
+{
+    public function testAdd()
+    {
+        $db = require __DIR__.'/../db-connection.php';
+
+        $cat[0] = array(
+            'nomCat' => 'Hello',
+        );
+        $cat[1] = array(
+            'nomCat' => 'World',
+        );
+
+        Categorie::add($db, $cat[0]['nomCat']);
+        $id = Categorie::add($db, $cat[1]['nomCat']);
+
+        $this->assertEquals('2', $id);
+    }
+
+    public function testGetAll()
+    {
+        $db = require __DIR__.'/../db-connection.php';
+
+        $cat[0] = array(
+            'idCat' => '1',
+            'nomCat' => 'Hello',
+        );
+        $cat[1] = array(
+            'idCat' => '2',
+            'nomCat' => 'World',
+        );
+
+        $data = Categorie::getAll($db);
+
+        $this->assertEquals($cat, $data);
+    }
+
+    public function testGet()
+    {
+        $db = require __DIR__.'/../db-connection.php';
+
+        $cat[0] = array(
+            'idCat' => '1',
+            'nomCat' => 'Hello',
+        );
+        $cat[1] = array(
+            'idCat' => '2',
+            'nomCat' => 'World',
+        );
+
+        $data = Categorie::get($db, $cat[1]['idCat']);
+
+        $this->assertEquals($cat[1], $data);
+    }
+
+    public function testSetNom()
+    {
+        $db = require __DIR__.'/../db-connection.php';
+
+        $cat[0] = array(
+            'idCat' => '1',
+            'nomCat' => 'Hello',
+        );
+        $cat[1] = array(
+            'idCat' => '2',
+            'nomCat' => 'Hey',
+        );
+
+        Categorie::setNom($db, $cat[1]['idCat'], $cat[1]['nomCat']);
+        $data = Categorie::get($db, $cat[1]['idCat']);
+
+        $this->assertEquals($cat[1], $data);
+    }
+
+    public function testDeleteById()
+    {
+        $db = require __DIR__.'/../db-connection.php';
+
+        Categorie::delete($db, '2');
+        $data = Categorie::get($db, '2');
+
+        $this->assertEmpty($data);
+    }
+}
