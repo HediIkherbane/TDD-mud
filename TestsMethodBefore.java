@@ -1,7 +1,7 @@
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
 
-public class TestsMethodeBefore {
+public class TestsMethodBefore {
     
     private int a;
 
